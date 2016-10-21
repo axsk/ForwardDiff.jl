@@ -134,6 +134,16 @@ end
 
 trigonometric(x) = (y = zeros(eltype(x), length(Y)); trigonometric!(y, x); return y)
 
+function matrixmult!(y::Vector, x::Vector)
+    A = rand(MersenneTwister(1), length(y), length(x))
+    y[:] = A * x
+    return y
+end
+
+matrixmult(x) = (y = similar(x); matrixmult!(y, x); return y)
+
+
 const VECTOR_TO_VECTOR_FUNCS = tuple(tuple(chebyquad!, chebyquad),
                                      tuple(brown_almost_linear!, brown_almost_linear),
-                                     tuple(trigonometric!, trigonometric))
+                                     tuple(trigonometric!, trigonometric),
+                                     tuple(matrixmult!, matrixmult))
